@@ -21,60 +21,60 @@ namespace test_one.Controllers
             _context = context;
         }
 
-        //[HttpGet]
-        //public async Task<ActionResult<object>> GetCustomer([FromQuery] int page = 1, [FromQuery] int pageSize = 5)
-        //{
-        //    // Validate input
-        //    if (page <= 0 || pageSize <= 0)
-        //    {
-        //        return BadRequest("Page and pageSize must be greater than 0.");
-        //    }
-
-        //    var totalCustomers = await _context.Customer.CountAsync();
-        //    var totalPages = (int)Math.Ceiling(totalCustomers / (double)pageSize);
-
-        //    var customers = await _context.Customer
-        //        .Skip((page - 1) * pageSize)
-        //        .Take(pageSize)
-        //        .ToListAsync();
-
-        //    return Ok(new
-        //    {
-        //        page,
-        //        pageSize,
-        //        totalCustomers,
-        //        totalPages,
-        //        customers
-        //    });
-        //}
         [HttpGet]
-        public async Task<ActionResult<object>> GetCustomer(
-    [FromQuery] int page = 1,
-    [FromQuery] int pageSize = 5,
-    [FromQuery] string? search = null)
+        public async Task<ActionResult<object>> GetCustomer([FromQuery] int page = 1, [FromQuery] int pageSize = 5)
         {
-            var query = _context.Customer.AsQueryable();
-
-            if (!string.IsNullOrEmpty(search))
+            // Validate input
+            if (page <= 0 || pageSize <= 0)
             {
-                search = search.ToLower();
-                query = query.Where(c =>
-                    c.Name.ToLower().Contains(search) ||
-                    c.Number.ToLower().Contains(search) ||
-                    c.Email.ToLower().Contains(search) ||
-                    c.Address.ToLower().Contains(search));
+                return BadRequest("Page and pageSize must be greater than 0.");
             }
 
-            var totalCustomers = await query.CountAsync();
+            var totalCustomers = await _context.Customer.CountAsync();
             var totalPages = (int)Math.Ceiling(totalCustomers / (double)pageSize);
 
-            var customers = await query
+            var customers = await _context.Customer
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            return Ok(new { page, pageSize, totalCustomers, totalPages, customers });
+            return Ok(new
+            {
+                page,
+                pageSize,
+                totalCustomers,
+                totalPages,
+                customers
+            });
         }
+        //    [HttpGet]
+        //    public async Task<ActionResult<object>> GetCustomer(
+        //[FromQuery] int page = 1,
+        //[FromQuery] int pageSize = 5,
+        //[FromQuery] string? search = null)
+        //    {
+        //        var query = _context.Customer.AsQueryable();
+
+        //        if (!string.IsNullOrEmpty(search))
+        //        {
+        //            search = search.ToLower();
+        //            query = query.Where(c =>
+        //                c.Name.ToLower().Contains(search) ||
+        //                c.Number.ToLower().Contains(search) ||
+        //                c.Email.ToLower().Contains(search) ||
+        //                c.Address.ToLower().Contains(search));
+        //        }
+
+        //        var totalCustomers = await query.CountAsync();
+        //        var totalPages = (int)Math.Ceiling(totalCustomers / (double)pageSize);
+
+        //        var customers = await query
+        //            .Skip((page - 1) * pageSize)
+        //            .Take(pageSize)
+        //            .ToListAsync();
+
+        //        return Ok(new { page, pageSize, totalCustomers, totalPages, customers });
+        //    }
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
