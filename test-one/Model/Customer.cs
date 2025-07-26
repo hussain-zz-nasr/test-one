@@ -4,10 +4,10 @@ namespace test_one.Model
 {
     public class Customer
     {
-        [Key] public int Id { get; set; }
-        public string Name { get; set; }
-        public int Number { get; set; }
-        public string Email { get; set; }
-        public string Address { get; set; }
+        [Key] public int id { get; set; }
+        public string name { get; set; }
+        public int number { get; set; }
+        public string email { get; set; }
+        public string address { get; set; }
     }
 }
